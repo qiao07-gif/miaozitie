@@ -1,0 +1,42 @@
+﻿# ===== 历史版本与备份（不纳入发布仓库）=====
+*备份*.html
+*调试*.html
+*_debug*.html
+*_m2log*
+*_r4test*
+*_test*.js
+V5*.html
+V5*.md
+V6复刻*.md
+V6-M3*.md
+V6多轮*.md
+WorkBuddy-*.md
+indexV3.html
+indexV4.html
+indexV5.html
+V6.6k-*.html
+V6.6l-*.html
+会话备案录*.md
+_m2log.js
+_r4test.js
+
+# ===== 本地回测副本 =====
+*手机回测版*.html
+
+# ===== 预览 / 调试 HTML（不入库）=====
+*预览*.html
+*效果*.html
+*复用稿*.html
+*对比*.html
+*新效果*.html
+探卷V6-*.html
+第1品金句卡-*.html
+心经*.html
+
+# ===== 其他不应入库 =====
+chardata.js
+金刚经儿童精读融合版.html
+
+# ===== 系统/编辑器 =====
+.DS_Store
+Thumbs.db
