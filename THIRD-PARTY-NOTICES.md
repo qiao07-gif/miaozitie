@@ -30,3 +30,11 @@
   · 界面、文案与视觉设计（含金骨架参数体系）
 
 如第三方组件许可与本声明冲突，以各组件原许可文件为准。
+
+4. 二维码生成（qrcode-generator）
+   - 用途：分享卡底部二维码，运行时按 SHARE_URL 生成真实可扫二维码（MIT License）
+   - 作者：Copyright (c) 2009 Kazuhiko Arase
+   - 官方：https://github.com/kazuhikoarase/qrcode-generator
+   - 许可：MIT License（http://www.opensource.org/licenses/mit-license.php）
+   - 说明：内联其源码生成二维码点阵，未调用任何外部二维码 API，
+     因而无外部服务依赖与隐私数据出域风险。
