@@ -7415,6 +7415,20 @@ function __segDist(px,py,x1,y1,x2,y2){ const dx=x2-x1,dy=y2-y1,l2=dx*dx+dy*dy; i
 function __ptPoly(x,y,poly){ let m=1e9; for(let i=0;i<poly.length-1;i++) m=Math.min(m,__segDist(x,y,poly[i][0],poly[i][1],poly[i+1][0],poly[i+1][1])); return m; }
 function __traceLen(p){ let s=0; for(let i=1;i<p.length;i++) s+=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]); return s; }
 function __polyLen(poly){ let s=0; for(let i=1;i<poly.length;i++) s+=Math.hypot(poly[i][0]-poly[i-1][0],poly[i][1]-poly[i-1][1]); return s; }
+// ★ B-1 判据（2026-08-11）：末笔是不是「直斜长捺/撇」——形态分流，不按字硬编码；角度区间284-356覆盖"之"
+function __strokeLastIsDiag(best, sz){
+  const L=__polyLen(best.poly);
+  if(L < sz*0.45) return false;
+  const a0=best.poly[0], b0=best.poly[best.poly.length-1];
+  const c=Math.hypot(a0[0]-b0[0],a0[1]-b0[1]);
+  const st=c/L; if(st<0.85) return false;
+  const dx=b0[0]-a0[0], dy=b0[1]-a0[1], Lc=Math.hypot(dx,dy);
+  let per=0, along=0;
+  for(const[px,py]of best.poly){ const t=((px-a0[0])*dx+(py-a0[1])*dy)/Lc, d=Math.abs((py-a0[1])*dx-(px-a0[0])*dy)/Lc; along+=Math.max(0,t); per+=d; }
+  if(per/Math.max(1,along) > 0.25) return false;
+  const deg=(Math.atan2(dy,dx)*180/Math.PI+360)%360;
+  return (deg>198&&deg<252)||(deg>284&&deg<356);
+}
 // 一笔轨迹 points → 命中某未标记骨架笔；null=认不出
 function strokeMatch(points, model, sz){
   if(!points || points.length<2 || !model || !model.length) return null;
@@ -7443,14 +7457,17 @@ function strokeMatch(points, model, sz){
   //   根因：「色」竖弯钩骨架 338px，原 20% 覆盖=只描 135px(竖段)就命中跳，钩尾没写就跳（橙橙真机反馈"色左下角下拉没写就跳"）。
   //   65% 对"勾回来"的超长笔（钩尖回到起点附近，如 书/以/佛 的钩）也强制描到钩尾附近，防描一半就跳。
   const tl=__traceLen(points), pl=__polyLen(best.poly);
-  const lenNeed = pl<80 ? pl*0.20 : (pl<200 ? pl*0.35 : pl*0.65);
+  const isLast = (best === model[model.length-1]);
+  const isDiagLast = isLast && __strokeLastIsDiag(best, sz);
+  const lenNeed = isDiagLast ? pl*0.85 : (pl<80 ? pl*0.20 : (pl<200 ? pl*0.35 : pl*0.65));
   if(tl < lenNeed) return null;
   // ★ 末端覆盖（2026-08-02 超长笔修复）：轨迹终点须接近骨架末端段（<16%画布）。
   //   只查终点不查起点：防止"勾回笔"起点≈钩尖导致检查恒真。
   //   完整描（≥90%骨架长）跳过末端检查——孩子确实把整条笔画描完了（倒着描也认）；不足 90% 强制描到钩尾，防"描个开头就跳"。
   const bp=best.poly, bN=bp.length;
   const lastP=points[points.length-1];
-  if(tl < pl*0.9 && __segDist(lastP[0],lastP[1],bp[bN-2][0],bp[bN-2][1],bp[bN-1][0],bp[bN-1][1]) > sz*0.16) return null;
+  const skipEnd = (tl >= pl*0.9 && !isDiagLast);
+  if(!skipEnd && __segDist(lastP[0],lastP[1],bp[bN-2][0],bp[bN-2][1],bp[bN-1][0],bp[bN-1][1]) > sz*0.16) return null;
   return best;
 }
 
