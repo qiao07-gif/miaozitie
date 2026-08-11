@@ -7443,6 +7443,26 @@ function strokeMatch(points, model, sz){
     if(avg<bestAvg){ bestAvg=avg; best=m; }
   }
   if(!best || bestAvg>tol) return null;
+  // ★ B-2 (2026-08-12) 末笔误认防护：若 best 恰为末笔，但本笔更贴合某根「非末笔」(含已被近邻联动虚亮的hit笔)，
+  //   则改判为那根非末笔，杜绝「描非末笔长笔被顺带认成末笔→早跳」(使/复/人/入/大/夫/义/及/乃/之)。
+  //   根因：使的「史撇」笔被前一笔近邻联动虚亮(hit)，描它时该笔被排除出候选→轨迹被误认成末笔捺→跳。
+  //   修复：候选集允许已虚亮(hit)非末笔参与改判→把虚亮笔改判回，跳消失。双保险：① 候选前75%avg ≤ bestAvg*1.15 ② 本笔起点贴近候选(<sz*0.30)。
+  //   正常描真末笔时非末笔(已hit)avg 都远大于末笔→不误判；不动近邻联动主体，解/福黏连字不受影响。经全量模拟验证无回归(使9/9早跳消失)。
+  if(best === model[model.length-1]){
+    const _s0 = points[0];
+    let _alt=null, _altAvg=1e9;
+    for(const m of model){
+      if(m===best) continue;   // 允许已虚亮(hit)的非末笔参与改判——修使：笔6被联动虚亮也能被改判回
+      const _ds=[]; for(const p of points) _ds.push(__ptPoly(p[0],p[1],m.poly));
+      _ds.sort((a,b)=>a-b);
+      const _keepN=Math.max(1, Math.ceil(_ds.length*0.75));
+      let _s=0; for(let i=0;i<_keepN;i++) _s+=_ds[i];
+      const _a=_s/_keepN;
+      const _dStart=__ptPoly(_s0[0],_s0[1],m.poly);
+      if(_a <= bestAvg*1.15 && _dStart < sz*0.30 && _a < _altAvg){ _alt=m; _altAvg=_a; }
+    }
+    if(_alt) best=_alt;
+  }
   // ★ 长度校验（2026-08-02 超长笔修复）：按笔长分级——短笔(<80px) 20%、中笔(80-200px) 35%、超长笔(≥200px) 65%。
   //   根因：「色」竖弯钩骨架 338px，原 20% 覆盖=只描 135px(竖段)就命中跳，钩尾没写就跳（橙橙真机反馈"色左下角下拉没写就跳"）。
   //   65% 对"勾回来"的超长笔（钩尖回到起点附近，如 书/以/佛 的钩）也强制描到钩尾附近，防描一半就跳。
