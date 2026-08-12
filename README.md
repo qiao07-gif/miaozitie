@@ -1,5 +1,15 @@
 # 金刚经描字帖 · miaozitie
 
+## English / 英文简介
+Chinese Character-Tracing Workbook — a single-file, offline web app for brush-calligraphy stroke-order practice. The lines being traced come from classic Chinese scripture (including the Diamond Sutra / 金刚经).
+
+▶ Try it online: https://qiao07-gif.github.io/miaozitie
+
+- Trace golden-brush Chinese characters — stroke-order practice with **zero font files**
+- 32 chapters, each with a four-round tracing loop (meet → discover → create → teach), tracing its own lines
+- Badge & rank rewards to keep learners motivated — fun for all ages
+- Works offline — just open `index.html` in any browser
+
 一个**纯描红 / 书法练习**的单文件网页，把《金刚经》32 品的经典句变成可以一笔一画描写的字帖。
 
 ## 特点
