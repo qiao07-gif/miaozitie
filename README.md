@@ -1,5 +1,7 @@
 # 金刚经描字帖 · miaozitie
 
+> 《金刚经》描字 · 国学书法描红，一笔一画练习古典汉字
+
 ## English / 英文简介
 Chinese Character-Tracing Workbook — a single-file, offline web app for brush-calligraphy stroke-order practice. The lines being traced come from classic Chinese scripture (including the Diamond Sutra / 金刚经).
 
