@@ -645,7 +645,7 @@
       <span class="hero-floating" style="left:85%; top:58%; animation-delay:.7s;">🪷</span>
       <div class="hero-scene" id="heroScene"></div>
       <h2 class="serif">汉字描字帖</h2>
-      <button class="btn full" onclick="goChapters()">📖 开始读帖</button>
+      <button class="btn full" onclick="goChapters()">📖 开始朗诵</button>
       <button class="btn ghost full" onclick="showGallery()">🎴 我的收藏</button>
     </div>
     <div class="card">
@@ -655,7 +655,7 @@
     <div class="card">
       <h3><span class="dot"></span>🪷 初遇 · 读帖进度</h3>
       <div class="pbar"><div class="pfill" id="pFill"><span class="pdot">🪷</span></div></div>
-      <p class="ptxt" id="pTxt">还没开始，点「开始读帖」出发吧 🚀</p>
+      <p class="ptxt" id="pTxt">还没开始，点「开始朗诵」出发吧 🚀</p>
     </div>
     <div class="card">
       <h3><span class="dot"></span>今日任务</h3>
@@ -6426,7 +6426,7 @@ function updateProgress(got){
   setTimeout(()=>{ fill.style.width = pct + "%"; }, 60);
   const left = total - n;
   txt.innerHTML = n===0
-    ? "还没开始，点「开始读帖」出发吧 🚀"
+    ? "还没开始，点「开始朗诵」出发吧 🚀"
     : (left===0
         ? "🎉 三十二品全部读完！你就是<b>通经人</b> 🌟"
         : `已读完 <b>${n}</b> / ${total} 品，还差 <b>${left}</b> 品就通关啦！`);
