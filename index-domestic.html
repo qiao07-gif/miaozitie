@@ -311,7 +311,7 @@
   .gcard .p{font-size:11px; color:var(--ink2);}
   /* 弹层 */
   .mask{position:fixed; inset:0; background:rgba(40,30,15,.55); display:none; align-items:center;
-    justify-content:center; z-index:50; padding:20px;}
+    justify-content:center; z-index:50; padding:16px; overflow-y:auto; -webkit-overflow-scrolling:touch;}
   .mask.show{display:flex;}
   /* V6.2 安全退出蒙层（温和锁）：孩子按返回→弹"找家长"确认，不销毁应用 */
   .exitlock{position:fixed; inset:0; z-index:60; background:rgba(40,30,15,.62);
@@ -324,6 +324,7 @@
   .exitlock .card p{font-size:13px; color:var(--ink2); line-height:1.7;}
   .exitlock .card .btn{margin-top:10px;}
   .pop{background:var(--paper); border-radius:18px; padding:22px; max-width:340px; width:100%;
+    max-height:calc(100dvh - 32px); overflow-y:auto; -webkit-overflow-scrolling:touch;
     text-align:center; box-shadow:var(--shadow); animation:flash .4s ease;}
   .pop .emo{font-size:42px;}
   .pop h2{margin:8px 0; color:var(--gold);}
@@ -8061,6 +8062,8 @@ function showPop(bonus){
   $("mask").classList.add("show");
 }
 function closePop(){ $("mask").classList.remove("show"); }
+// 点弹窗外的暗色区域即可关闭（点弹窗内容不会误关）
+(function(){ const m=document.getElementById("mask"); if(m) m.addEventListener("click", function(e){ if(e.target===this) closePop(); }); })();
 
 // ★ 关于与授权（2026-08-03 新增）：满足 Arphic PL「随附授权原文」义务，开源/发布前必留
 function showAbout(){
