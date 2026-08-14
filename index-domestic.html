@@ -310,9 +310,10 @@
   .gcard .q{font-size:17px; color:var(--gold); letter-spacing:2px; margin-bottom:4px;}
   .gcard .p{font-size:11px; color:var(--ink2);}
   /* 弹层 */
-  .mask{position:fixed; inset:0; background:rgba(40,30,15,.55); display:none; align-items:center;
-    justify-content:center; z-index:50; padding:16px; overflow-y:auto; -webkit-overflow-scrolling:touch;}
+  .mask{position:fixed; inset:0; background:rgba(40,30,15,.55); display:none; align-items:flex-start;
+    justify-content:center; z-index:50; padding:24px 16px; overflow-y:auto; -webkit-overflow-scrolling:touch;}
   .mask.show{display:flex;}
+  @media (min-width:600px){ .mask.show{align-items:center;} }
   /* V6.2 安全退出蒙层（温和锁）：孩子按返回→弹"找家长"确认，不销毁应用 */
   .exitlock{position:fixed; inset:0; z-index:60; background:rgba(40,30,15,.62);
     display:none; align-items:center; justify-content:center; padding:24px;}
