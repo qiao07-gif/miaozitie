@@ -8584,7 +8584,7 @@ function cardSVG(p, suf){
   <rect x="60" y="60" width="${W-120}" height="${H-120}" rx="28" fill="none" stroke="${colD}" stroke-width="2" stroke-dasharray="12 10" opacity=".55"/>
   ${corners}
   <rect x="0" y="330" width="${W}" height="8" fill="url(#band${s})" opacity=".8"/>
-  <text x="${W/2}" y="200" text-anchor="middle" font-size="56" fill="${colD}" font-family="'KaiTi','STKaiti','SimKai',serif" letter-spacing="14">金 刚 经</text>
+  <text x="${W/2}" y="200" text-anchor="middle" font-size="56" fill="${colD}" font-family="'KaiTi','STKaiti','SimKai',serif" letter-spacing="14">汉 字 描 字 帖</text>
   <text x="${W/2}" y="272" text-anchor="middle" font-size="32" fill="#8a6a45" font-family="'KaiTi','STKaiti','SimKai',serif" letter-spacing="6">描字帖 · 第${p.pin}品 · ${esc(p.name.replace(/第.+$/,""))}</text>
   ${chars}
   <text x="${W/2}" y="${y}" text-anchor="middle" font-size="30" fill="#8a6a45" font-family="'KaiTi',serif" letter-spacing="2">${pinyin}</text>
@@ -8668,7 +8668,7 @@ function shareCardSVG(p){
   <rect x="46" y="46" width="${W-92}" height="${H-92}" rx="26" fill="none" stroke="${col}" stroke-width="3" opacity=".7"/>
   <rect x="62" y="62" width="${W-124}" height="${H-124}" rx="18" fill="none" stroke="${colD}" stroke-width="1" opacity=".4"/>
   <!-- 品牌（小而精致） -->
-  <text x="${W/2}" y="180" text-anchor="middle" font-size="40" font-family="'KaiTi','STKaiti','SimKai',serif" letter-spacing="12" fill="${colD}">金 刚 经 · 描字帖</text>
+  <text x="${W/2}" y="180" text-anchor="middle" font-size="40" font-family="'KaiTi','STKaiti','SimKai',serif" letter-spacing="12" fill="${colD}">汉 字 描 字 帖</text>
   <line x1="${W/2-120}" y1="215" x2="${W/2+120}" y2="215" stroke="${colD}" stroke-width="2" opacity=".5"/>
   <!-- 日签感：当日字体句 -->
   ${chars}
@@ -11064,7 +11064,7 @@ function cardShell(inner, s){
   <rect x="40" y="40" width="1000" height="1840" rx="40" fill="none" stroke="${col}" stroke-width="5"/>
   <rect x="60" y="60" width="960" height="1800" rx="28" fill="none" stroke="${colD}" stroke-width="2" stroke-dasharray="12 10" opacity=".55"/>
   ${[[70,70],[1010,70],[70,1850],[1010,1850]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${col}" stroke-width="3"/><circle cx="${x}" cy="${y}" r="5" fill="${col}"/>`).join("")}
-  <text x="540" y="200" text-anchor="middle" font-size="56" fill="${colD}" font-family="'KaiTi','STKaiti','SimKai',serif" letter-spacing="14">金 刚 经</text>
+  <text x="540" y="200" text-anchor="middle" font-size="56" fill="${colD}" font-family="'KaiTi','STKaiti','SimKai',serif" letter-spacing="14">汉 字 描 字 帖</text>
   ${inner}
   <rect x="0" y="1670" width="1080" height="250" fill="url(#band${s})" opacity=".12"/>
   <text x="540" y="1762" text-anchor="middle" font-size="44" fill="${colD}" font-family="'KaiTi',serif" letter-spacing="4">「${esc((S.nick||"小行者").replace(/[<>&]/g,""))}」的专属卡片</text>
