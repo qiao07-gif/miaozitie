@@ -37,19 +37,19 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="汉字描红练习" />
 <meta name="format-detection" content="telephone=no" />
-<meta name="description" content="为孩子与亲子家庭设计的汉字描红互动网页：中文描字练字、国学书法描红、古典汉字练习，描红练习、金句收藏。把经典汉字变成亲子共读的温暖练字游戏。免费、单文件、手机平板都能玩。" />
+<meta name="description" content="为孩子与亲子家庭设计的汉字描红互动网页：中文描字练字、国学书法描红、古典汉字练习，描字练习、金句收藏。把经典汉字变成亲子共读的温暖练字游戏。免费、单文件、手机平板都能玩。" />
 <meta name="keywords" content="描红,互动,亲子共读,中文描字,国学书法,古典汉字,练字,汉字之美" />
 <link rel="canonical" href="https://miaozitie.top/" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="汉字描红｜中文描字 · 国学书法描红 · 亲子共读互动版" />
-<meta property="og:description" content="为孩子与亲子家庭设计的汉字描红互动网页：中文描字练字、国学书法描红、古典汉字练习，描红练习、金句收藏。把经典汉字变成亲子共读的温暖练字游戏。" />
+<meta property="og:description" content="为孩子与亲子家庭设计的汉字描红互动网页：中文描字练字、国学书法描红、古典汉字练习，描字练习、金句收藏。把经典汉字变成亲子共读的温暖练字游戏。" />
 <meta property="og:image" content="https://miaozitie.top/og-cover.png" />
 <meta property="og:url" content="https://miaozitie.top/" />
 <meta property="og:locale" content="zh_CN" />
 <meta property="og:site_name" content="汉字描红练习" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="汉字描红｜中文描字 · 国学书法描红 · 亲子共读互动版" />
-<meta name="twitter:description" content="为孩子与亲子家庭设计的汉字描红互动网页：中文描字练字、国学书法描红、古典汉字练习，描红练习、金句收藏。把经典汉字变成亲子共读的温暖练字游戏。" />
+<meta name="twitter:description" content="为孩子与亲子家庭设计的汉字描红互动网页：中文描字练字、国学书法描红、古典汉字练习，描字练习、金句收藏。把经典汉字变成亲子共读的温暖练字游戏。" />
 <meta property="twitter:image" content="https://miaozitie.top/og-cover.png" />
 <title>汉字描红｜中文描字 · 国学书法描红 · 亲子共读互动版</title>
 <style>
@@ -618,7 +618,7 @@
 <body>
 <div class="wrap">
   <div class="topbar" id="topbar">
-    <div class="title">金刚经描字帖<small>读一品 → 结个缘 → 描一句 → 集卡</small></div>
+    <div class="title">汉字描字帖<small>读一部千年智慧经典 · 描一句传世金句</small></div>
     <div class="stats">
       <div class="stat"><b id="stPts">0</b>积分</div>
       <div class="stat"><b id="stDone">0</b>已读</div>
@@ -644,7 +644,7 @@
       <span class="hero-floating" style="left:10%; top:60%; animation-delay:2.2s;">✨</span>
       <span class="hero-floating" style="left:85%; top:58%; animation-delay:.7s;">🪷</span>
       <div class="hero-scene" id="heroScene"></div>
-      <h2 class="serif">金刚经描字帖</h2>
+      <h2 class="serif">汉字描字帖</h2>
       <button class="btn full" onclick="goChapters()">📖 开始读经</button>
       <button class="btn ghost full" onclick="showGallery()">🎴 我的收藏</button>
     </div>
@@ -889,7 +889,7 @@ window.CHAR_DATA = {"一": {"strokes": ["M 518 382 Q 572 385 623 389 Q 758 399 9
 </script>
 <script>
 const DATA = {
- "title": "金刚经描字帖笔记",
+ "title": "汉字描字帖笔记",
  "basedOn": "姚秦三藏法师鸠摩罗什译本（龙藏底本）",
  "targetAge": "小学三年级（8-9岁）",
  "languageStyle": "所有佛教术语翻成孩子能懂的话，用比喻和故事解释抽象概念",
@@ -8043,8 +8043,8 @@ function showFinAll(){
   playSound("wow");
   const nQ = Object.keys(S.done).length, pts = S.points||0, str = (S.streak&&S.streak.count)||0;
   $("pop").innerHTML = `<div class="emo" style="font-size:64px;">🎊</div>
-    <h2 style="font-size:25px; color:var(--gold);">通关《金刚经》32 品！</h2>
-    <p>你把整部《金刚经》都读完了，<br>三十二品金句都刻进了心里 ✨<br>
+    <h2 style="font-size:25px; color:var(--gold);">通关 32 品金句！</h2>
+    <p>你把整部经典都读完了，<br>三十二品金句都刻进了心里 ✨<br>
       金句卡 <b>${nQ}</b> 张 · 积分 <b>${pts}</b> · 连续 <b>${str}</b> 天</p>
     <div style="font-size:36px; letter-spacing:10px; margin:10px 0;">🪷🌸✨📿✨🌸🪷</div>
     <button class="btn gold full" onclick="closePop();gotoStep(4);">看看我的收藏 →</button>
@@ -8065,9 +8065,9 @@ function closePop(){ $("mask").classList.remove("show"); }
 // ★ 关于与授权（2026-08-03 新增）：满足 Arphic PL「随附授权原文」义务，开源/发布前必留
 function showAbout(){
   $("pop").innerHTML = `<div class="emo">📜</div><h2>关于与授权</h2>
-    <p style="margin:6px 0 12px;">「金刚经描字帖」——用描红、选句、集卡，陪你描《金刚经》金句。</p>
+    <p style="margin:6px 0 12px;">「汉字描字帖」——用描红、选句、集卡，陪你描传世金句。</p>
     <div style="text-align:left; font-size:12.5px; color:var(--ink2); line-height:1.9; background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:10px;">
-      <b style="color:var(--ink);">📖 经文原文</b><br>《金刚经》——约 1500 年前成书，公有领域<br><br>
+      <b style="color:var(--ink);">📖 经典原文</b><br>这部千年经典——约 1500 年前成书，公有领域<br><br>
       <b style="color:var(--ink);">🖊️ 描字引擎</b><br>Hanzi Writer v2.0.1 —— MIT License<br><br>
       <b style="color:var(--ink);">✍️ 笔画数据</b><br>hanzi-writer-data（源自文鼎 Arphic 开源字体）—— Arphic Public License<br><br>
       <b style="color:var(--ink);">🔤 字体</b><br>未嵌入任何字体文件，全部使用系统字体渲染
@@ -8100,7 +8100,7 @@ function exitSafe(){
   try{ window.close(); }catch(e){}
   // 兜底：若浏览器拦截 about:blank / 关不掉，就显示安全退出页（家长主动选择，可接受）
   document.body.innerHTML =
-    '<div style="height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#fdf8ef;color:#8a6a45;font-family:KaiTi,STKaiti,serif;font-size:22px;letter-spacing:6px;">已安全退出 🌿<div style="font-size:12px;margin-top:12px;letter-spacing:2px;color:#b8a688;">金刚经描字帖</div></div>';
+    '<div style="height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#fdf8ef;color:#8a6a45;font-family:KaiTi,STKaiti,serif;font-size:22px;letter-spacing:6px;">已安全退出 🌿<div style="font-size:12px;margin-top:12px;letter-spacing:2px;color:#b8a688;">汉字描字帖</div></div>';
 }
 initSafeExit();
 
@@ -8395,7 +8395,7 @@ function showSeasonList(){
 }
 function downloadSeasonPNG(season){
   const a = (S.teacherArchive||[]).find(x=>x.season===season); if(!a) return;
-  downloadSVG(seasonCardSVG(a), `金刚经_小老师_教学第${season}季_${(S.nick||"小行者").replace(/[<>&]/g,"")}.png`);
+  downloadSVG(seasonCardSVG(a), `汉字描字_小老师_教学第${season}季_${(S.nick||"小行者").replace(/[<>&]/g,"")}.png`);
 }
 function seasonCardSVG(a){
   const W=1080,H=1920, col=S.color||"#c9a227";
@@ -8409,7 +8409,7 @@ function seasonCardSVG(a){
     <text x="${W/2}" y="540" text-anchor="middle" font-size="36" fill="#6a5236" font-family="'KaiTi',serif">经验：${a.exp} 分</text>
     <text x="${W/2}" y="640" text-anchor="middle" font-size="34" fill="#8a6a45" font-family="'KaiTi',serif">完成：32/32 品教学</text>
     <text x="${W/2}" y="${H-160}" text-anchor="middle" font-size="30" fill="#a08a68" font-family="'KaiTi',serif">${esc(a.date||"")} · ${esc(S.nick||"小行者")} 署名</text>
-    <text x="${W/2}" y="${H-100}" text-anchor="middle" font-size="26" fill="#a08a68" font-family="'KaiTi',serif">金刚经描字帖 · 小老师之路</text>
+    <text x="${W/2}" y="${H-100}" text-anchor="middle" font-size="26" fill="#a08a68" font-family="'KaiTi',serif">汉字描字帖 · 小老师之路</text>
   </svg>`;
 }
 function popConfirm(title, body, onOk, cancelTxt, okTxt){
@@ -8602,7 +8602,7 @@ function cardSVG(p, suf){
     <rect x="-126" y="-27" width="252" height="54" rx="8" fill="none" stroke="#b03a2e" stroke-width="2.5" opacity=".85"/>
     <text x="0" y="9" text-anchor="middle" font-size="30" fill="#8f2b1f" font-family="'KaiTi',serif" letter-spacing="6">— ${esc(nick)} —</text>
   </g>
-  <text x="${W/2}" y="${H-34}" text-anchor="middle" font-size="24" fill="#a08a68" font-family="'KaiTi',serif">${dstr} · 金刚经描字帖</text>
+  <text x="${W/2}" y="${H-34}" text-anchor="middle" font-size="24" fill="#a08a68" font-family="'KaiTi',serif">${dstr} · 汉字描字帖</text>
 </svg>`;
 }
 // V2：角色头像（大头像/小头像共用，viewBox 300 自动缩放）
@@ -8686,7 +8686,7 @@ function shareCardSVG(p){
     <text x="0" y="9" text-anchor="middle" font-size="30" fill="#8f2b1f" font-family="'KaiTi',serif" letter-spacing="6">— ${esc(nick)} —</text>
   </g>
   <!-- 二维码体验入口 -->
-  <text x="${W/2}" y="1574" text-anchor="middle" font-size="24" font-family="'KaiTi',serif" letter-spacing="2" fill="#6a5236">扫码 · 一起来当小书童 · 每天一句金刚经</text>
+  <text x="${W/2}" y="1574" text-anchor="middle" font-size="24" font-family="'KaiTi',serif" letter-spacing="2" fill="#6a5236">扫码 · 一起来当小书童 · 每天一句金句</text>
   <rect x="${W/2-150}" y="${H-330}" width="300" height="300" rx="18" fill="#ffffff" stroke="${colD}" stroke-width="3"/>
   <g transform="translate(${W/2-105},${H-285})">${realQR(SHARE_URL,210)}</g>
 </svg>`;
@@ -11027,7 +11027,7 @@ function qrGlyph(x,y,size){
 function downloadSharePNG(n){
   const p = DATA.pins.find(x=>x.pin===n);
   if(!p) return;
-  downloadSVG(shareCardSVG(p), `金刚经日签_${(S.nick||"小书童").replace(/[<>&]/g,"")}_${today()}.png`);
+  downloadSVG(shareCardSVG(p), `汉字描字日签_${(S.nick||"小书童").replace(/[<>&]/g,"")}_${today()}.png`);
 }
 // V2：通用下载（SVG → canvas → PNG 9:16）
 function downloadSVG(svg, fname){
@@ -11068,7 +11068,7 @@ function cardShell(inner, s){
   ${inner}
   <rect x="0" y="1670" width="1080" height="250" fill="url(#band${s})" opacity=".12"/>
   <text x="540" y="1762" text-anchor="middle" font-size="44" fill="${colD}" font-family="'KaiTi',serif" letter-spacing="4">「${esc((S.nick||"小行者").replace(/[<>&]/g,""))}」的专属卡片</text>
-  <text x="540" y="1820" text-anchor="middle" font-size="26" fill="#6a5236" font-family="'KaiTi',serif">${today()} · 金刚经描字帖</text>
+  <text x="540" y="1820" text-anchor="middle" font-size="26" fill="#6a5236" font-family="'KaiTi',serif">${today()} · 汉字描字帖</text>
 </svg>`;
 }
 // ★ V6.6l：四轮金句卡（金骨架，白框+米字格+金字竖排，复用 cardShell 壳）
@@ -11106,7 +11106,7 @@ function r3WorkSVG(w){
 // ★ V7：downloadR2WisdomPNG 已移除（智慧卡用户文字不再上卡）
 function downloadR2QuotePNG(n){
   const p=DATA.pins.find(x=>x.pin===n); if(!p) return;
-  downloadSVG(r2QuoteSVG(p), `金刚经_第${n}品_发现金句卡_${(S.nick||"小行者").replace(/[<>&]/g,"")}.png`);
+  downloadSVG(r2QuoteSVG(p), `汉字描字_第${n}品_发现金句卡_${(S.nick||"小行者").replace(/[<>&]/g,"")}.png`);
 }
 function printR2Quote(n){
   const p=DATA.pins.find(x=>x.pin===n); if(!p) return;
@@ -11114,7 +11114,7 @@ function printR2Quote(n){
 }
 function downloadR3QuotePNG(n){
   const p=DATA.pins.find(x=>x.pin===n); if(!p) return;
-  downloadSVG(r3QuoteSVG(p), `金刚经_第${n}品_创造金句卡_${(S.nick||"小行者").replace(/[<>&]/g,"")}.png`);
+  downloadSVG(r3QuoteSVG(p), `汉字描字_第${n}品_创造金句卡_${(S.nick||"小行者").replace(/[<>&]/g,"")}.png`);
 }
 function printR3Quote(n){
   const p=DATA.pins.find(x=>x.pin===n); if(!p) return;
@@ -11122,7 +11122,7 @@ function printR3Quote(n){
 }
 function downloadR4QuotePNG(n){
   const p=DATA.pins.find(x=>x.pin===n); if(!p) return;
-  downloadSVG(r4QuoteSVG(p), `金刚经_第${n}品_小老师金句卡_${(S.nick||"小讲师").replace(/[<>&]/g,"")}.png`);
+  downloadSVG(r4QuoteSVG(p), `汉字描字_第${n}品_小老师金句卡_${(S.nick||"小讲师").replace(/[<>&]/g,"")}.png`);
 }
 function printR4Quote(n){
   const p=DATA.pins.find(x=>x.pin===n); if(!p) return;
@@ -11131,7 +11131,7 @@ function printR4Quote(n){
 // ★ V7：downloadR2QaPNG 已移除（问答卡用户文字不再上卡）
 function downloadR3WorkPNG(time){
   const w=(S.works||[]).find(x=>x.time===time); if(!w) return;
-  downloadSVG(r3WorkSVG(w), `金刚经_第${w.pin}品_作品卡_${(S.nick||"小行者").replace(/[<>&]/g,"")}.png`);
+  downloadSVG(r3WorkSVG(w), `汉字描字_第${w.pin}品_作品卡_${(S.nick||"小行者").replace(/[<>&]/g,"")}.png`);
 }
 function printSVG(svg){
   if(isWeChat){ toast("微信里不能直接打印哦～点右上角···用浏览器打开就能打印 🖨️"); return; }
@@ -11143,7 +11143,7 @@ function printR3Work(time){ const w=(S.works||[]).find(x=>x.time===time); if(w) 
 function downloadCardPNG(n){
   const p = DATA.pins.find(x=>x.pin===n);
   if(!p) return;
-  downloadSVG(cardSVG(p), `金刚经_第${p.pin}品_金句卡_${(S.nick||"小书童").replace(/[<>&]/g,"")}.png`);   // ★ V7 0809h：去掉 "cur"，下载卡跟随网页显示句(collectedQuote)
+  downloadSVG(cardSVG(p), `汉字描字_第${p.pin}品_金句卡_${(S.nick||"小书童").replace(/[<>&]/g,"")}.png`);   // ★ V7 0809h：去掉 "cur"，下载卡跟随网页显示句(collectedQuote)
 }
 function printCard(n){
   if(isWeChat){ toast("微信里不能直接打印哦～点右上角···用浏览器打开就能打印 🖨️"); return; }
@@ -11298,7 +11298,7 @@ $("heroScene").innerHTML = heroSceneSVG();
 
 <!--
 ============================================================
-  金刚经描字帖融合版 · 签名与指纹
+  汉字描字帖融合版 · 签名与指纹
   版本：V6.6l（md5 0d66d4b7）
   作者：橙橙（晞橙橙晞）
   首发：2026-08-04
@@ -11311,10 +11311,10 @@ $("heroScene").innerHTML = heroSceneSVG();
 <script id="v7data">
 window.JGZ_DATA={
   "meta": {
-    "title": "金刚经描字帖",
+    "title": "汉字描字帖",
     "translator": "姚秦三藏法师鸠摩罗什 译",
     "source_note": "底本依大藏经（罗什译本）",
-    "pinyin_note": "拼音离线预生成 bake 进数据；多音字按金刚经语境覆盖（著zhuó/应yīng/舍shě/乐yào/那nuó/唯wěi等）。\"不\"在疑问句末通\"否\"fǒu 的争议句（可思量不/阿那含果不/不也世尊等）暂保留 bù/bú，待橙橙最终拍板是否全改 fǒu。\"愿乐欲闻\"乐 按橙橙拍板统一 yào（传统有 lè 一读，可微调）。",
+    "pinyin_note": "拼音离线预生成 bake 进数据；多音字按经典语境覆盖（著zhuó/应yīng/舍shě/乐yào/那nuó/唯wěi等）。\"不\"在疑问句末通\"否\"fǒu 的争议句（可思量不/阿那含果不/不也世尊等）暂保留 bù/bú，待橙橙最终拍板是否全改 fǒu。\"愿乐欲闻\"乐 按橙橙拍板统一 yào（传统有 lè 一读，可微调）。",
     "sentence_count": 342,
     "char_count": 424
   },

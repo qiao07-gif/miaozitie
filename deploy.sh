@@ -12,8 +12,8 @@ echo "  ✓ Nginx 已启动"
 
 echo "【2/4】从 jsDelivr CDN 下载脱敏版页面（约 3MB，1Mbps 带宽需约半分钟，请耐心等）..."
 cd /tmp
-curl -fL -o index-domestic.html "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@main/index-domestic.html"
-curl -fL -o og-cover.png "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@main/og-cover.png"
+curl -fL -o index-domestic.html "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@main/index-domestic.html?_=$(date +%s)"
+curl -fL -o og-cover.png "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@main/og-cover.png?_=$(date +%s)"
 SIZE=$(stat -c%s index-domestic.html 2>/dev/null || echo 0)
 echo "  下载完成，index.html 大小: ${SIZE} 字节"
 if [ "$SIZE" -lt 1000000 ]; then
