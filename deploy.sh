@@ -1,23 +1,23 @@
 #!/bin/bash
 # 一键部署脱敏版描字帖到腾讯云 CVM（Ubuntu + Nginx）
-# 用法：bash <(curl -fsSL https://github.com/qiao07-gif/miaozitie/raw/main/deploy.sh)
+# 用法：cd /tmp && curl -fsSL -o deploy.sh "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@main/deploy.sh" && sudo bash deploy.sh
 set -e
 
 echo "【1/4】安装 Nginx（首次约 1-2 分钟，请耐心等）..."
-sudo apt-get update -y >/dev/null 2>&1
-sudo apt-get install -y nginx >/dev/null 2>&1
+sudo apt-get update -y
+sudo apt-get install -y nginx
 sudo systemctl enable nginx
 sudo systemctl start nginx
 echo "  ✓ Nginx 已启动"
 
-echo "【2/4】从 GitHub 下载脱敏版页面..."
+echo "【2/4】从 jsDelivr CDN 下载脱敏版页面（约 3MB，1Mbps 带宽需约半分钟，请耐心等）..."
 cd /tmp
-curl -fsSL -o index-domestic.html "https://github.com/qiao07-gif/miaozitie/raw/main/index-domestic.html"
-curl -fsSL -o og-cover.png "https://github.com/qiao07-gif/miaozitie/raw/main/og-cover.png"
+curl -fL -o index-domestic.html "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@main/index-domestic.html"
+curl -fL -o og-cover.png "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@main/og-cover.png"
 SIZE=$(stat -c%s index-domestic.html 2>/dev/null || echo 0)
 echo "  下载完成，index.html 大小: ${SIZE} 字节"
 if [ "$SIZE" -lt 1000000 ]; then
-  echo "  ⚠️ 文件太小（${SIZE} 字节），可能下载被墙或拿到假 404 页。请截图本段结果告诉我。"
+  echo "  ⚠️ 文件太小（${SIZE} 字节），可能 CDN 未缓存。请截图本段结果告诉我。"
   exit 1
 fi
 
