@@ -6388,8 +6388,8 @@ function buildAch(celebrate){
   const list = [
     {n:"🌱 初心", d:"读满 1 品", ok:got>=1},
     {n:"🚶 小行者", d:"读满 8 品", ok:got>=8},
-    {n:"🌸 半部经", d:"读满 16 品", ok:got>=16},
-    {n:"🌟 通经人", d:"读满 32 品", ok:got>=32},
+    {n:"🌸 半部帖", d:"读满 16 品", ok:got>=16},
+    {n:"🌟 通帖人", d:"读满 32 品", ok:got>=32},
     {n:"🏅 百金", d:"积分满 100", ok:S.points>=100},
     {n:"🔥 连胜星", d:"连胜 3 天", ok:(S.streak.count||0)>=3},
     // ★ 2026-08-02 轮次成就 13 枚（R1×4 + 通用×2 + R2×1 + R3×3 + R4×3）
@@ -6398,7 +6398,7 @@ function buildAch(celebrate){
     {n:"✨ 创意星", d:"累计描完 24 品", ok:tracedTotalN()>=24},
     {n:"🌈 故事家", d:"创造轮做满 8 品", ok:Object.keys(S.r3_done||{}).length>=8},
     {n:"🎓 小讲师", d:"小老师轮描完 1 品", ok:Object.keys(S.r4traced||{}).length>=1},
-    {n:"💞 四轮圆满", d:"四轮各描满 1 品", ok:['r1_done','r2_done','r3_done','r4_done'].every(k=>Object.keys(S[k]||{}).length>=1)},
+    {n:"💞 四轮大成", d:"四轮各描满 1 品", ok:['r1_done','r2_done','r3_done','r4_done'].every(k=>Object.keys(S[k]||{}).length>=1)},
     {n:"🏆 小老师毕业", d:"R4 轮描满 8 品", ok:Object.keys(S.r4_done||{}).length>=8},
   ];
   const prev = S.achGot||0;
@@ -6428,7 +6428,7 @@ function updateProgress(got){
   txt.innerHTML = n===0
     ? "还没开始，点「开始朗诵」出发吧 🚀"
     : (left===0
-        ? "🎉 三十二品全部读完！你就是<b>通经人</b> 🌟"
+        ? "🎉 三十二品全部读完！你就是<b>通帖人</b> 🌟"
         : `已读完 <b>${n}</b> / ${total} 品，还差 <b>${left}</b> 品就通关啦！`);
 }
 
@@ -6932,7 +6932,7 @@ function submitCreate(btn, i){
   const gain = S.curRound===4 ? (star?20:15) : (star?20:(writeN>=3?15:12));   // ★ M3.5：R4 回信 +15 基础 / 好文字 +20（R3 仍 +12/+15/+20）
   qbox.dataset.answered="1";
   btn.disabled=true; btn.textContent="作品做好啦 ✓";
-  if(S.curRound===4){   // ★ R4 回信 → 老师卡素材 q3（💞四轮圆满徽章前身；打平后回信不触发，数据保留）；不进 R3 作品墙
+  if(S.curRound===4){   // ★ R4 回信 → 老师卡素材 q3（💞四轮大成徽章前身；打平后回信不触发，数据保留）；不进 R3 作品墙
     S.r4cards[curPin] = S.r4cards[curPin]||{};
     S.r4cards[curPin]["q"+(i+1)] = fullText || (emojis||[]).join(" ");
   } else {
@@ -8274,7 +8274,7 @@ const TEACHER_RANKS = [
   {name:"钻石书童", min:501, max:900,  icon:"💎", cls:"r-diamond"},
   {name:"至尊书童", min:901, max:1e9,  icon:"👑", cls:"r-royal"},
 ];
-const TEACHER_HIDDEN = {name:"大禅师", min:2000, icon:"🪷"};   // 隐藏称谓：至尊后继续累积解锁
+const TEACHER_HIDDEN = {name:"翰墨宗师", min:2000, icon:"🪷"};   // 隐藏称谓：至尊后继续累积解锁
 // ★ V7 0809m：累计四轮实际描完品数（段位经验数据源，打平后不再依赖小老师教学）
 function tracedTotalN(){ return (Object.keys(S.r1traced||{}).length + Object.keys(S.r2traced||{}).length + Object.keys(S.r3traced||{}).length + Object.keys(S.r4traced||{}).length); }
 function teacherRank(exp){
