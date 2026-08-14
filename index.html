@@ -252,6 +252,9 @@
   #step3 .mini{font-size:14px; padding:8px 14px;}
   #step3 .btn{font-size:16px; padding:13px 22px;}
   #step3 .tracepy{font-size:16px; height:24px;}
+  #step3 .card{ position:relative; }
+  #step3 .s3head{ position:absolute; left:0; right:0; top:2.6rem; pointer-events:none; }
+  #step3 .tracezone{ position:relative; z-index:3; margin:16rem 0 4px; }
   .zoomlbl{font-size:12px; color:var(--ink2);}
   .zoomval{font-size:13px; font-weight:600; color:var(--red); min-width:18px; text-align:center;}
   .hwfall{cursor:pointer; color:var(--red); line-height:1; display:flex; align-items:center; justify-content:center; width:100%; height:100%;}
@@ -310,10 +313,9 @@
   .gcard .q{font-size:17px; color:var(--gold); letter-spacing:2px; margin-bottom:4px;}
   .gcard .p{font-size:11px; color:var(--ink2);}
   /* 弹层 */
-  .mask{position:fixed; inset:0; background:rgba(40,30,15,.55); display:none;
-    z-index:50; padding:24px 16px; overflow-y:auto; -webkit-overflow-scrolling:touch;}
-  .mask.show{display:block;}
-  @media (min-width:600px){ .mask.show{display:flex; align-items:center; justify-content:center;} }
+  .mask{position:fixed; inset:0; background:rgba(40,30,15,.55); display:none; align-items:center;
+    justify-content:center; z-index:50; padding:20px;}
+  .mask.show{display:flex;}
   /* V6.2 安全退出蒙层（温和锁）：孩子按返回→弹"找家长"确认，不销毁应用 */
   .exitlock{position:fixed; inset:0; z-index:60; background:rgba(40,30,15,.62);
     display:none; align-items:center; justify-content:center; padding:24px;}
@@ -325,8 +327,6 @@
   .exitlock .card p{font-size:13px; color:var(--ink2); line-height:1.7;}
   .exitlock .card .btn{margin-top:10px;}
   .pop{background:var(--paper); border-radius:18px; padding:22px; max-width:340px; width:100%;
-    margin:0 auto;
-    max-height:calc(100vh - 48px); max-height:calc(100dvh - 48px); overflow-y:auto; -webkit-overflow-scrolling:touch;
     text-align:center; box-shadow:var(--shadow); animation:flash .4s ease;}
   .pop .emo{font-size:42px;}
   .pop h2{margin:8px 0; color:var(--gold);}
@@ -737,8 +737,10 @@
     <div id="step3" class="hidden">
       <div class="card center">
         <h3 style="justify-content:center;"><span class="dot"></span>✍️ 描红这一品的金句</h3>
-        <div class="quotebig serif" id="s3quote"></div>
-        <p class="muted" id="s3prog">照着红色底字，用手指一笔一笔描。写好一个字会亮金光 ✨</p>
+        <div class="s3head">
+          <div class="quotebig serif" id="s3quote"></div>
+          <p class="muted" id="s3prog">照着红色底字，用手指一笔一笔描。写好一个字会亮金光 ✨</p>
+        </div>
         <div class="tracezone">
           <div class="tracebox" id="s3hw"></div>
           <button class="traceok" id="s3ok" onclick="markDoneManual()">✓ 写好啦</button>
@@ -8064,8 +8066,6 @@ function showPop(bonus){
   $("mask").classList.add("show");
 }
 function closePop(){ $("mask").classList.remove("show"); }
-// 点弹窗外的暗色区域即可关闭（点弹窗内容不会误关）
-(function(){ const m=document.getElementById("mask"); if(m) m.addEventListener("click", function(e){ if(e.target===this) closePop(); }); })();
 
 // ★ 关于与授权（2026-08-03 新增）：满足 Arphic PL「随附授权原文」义务，开源/发布前必留
 function showAbout(){
