@@ -259,7 +259,7 @@
   .zoomval{font-size:13px; font-weight:600; color:var(--red); min-width:18px; text-align:center;}
   .hwfall{cursor:pointer; color:var(--red); line-height:1; display:flex; align-items:center; justify-content:center; width:100%; height:100%;}
   /* 卡片下载 / 打印 */
-  .cardbtns{display:flex; gap:6px; justify-content:center; margin-top:8px;}
+  .cardbtns{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:8px;}
   .cardbtns .mini{font-size:11px; padding:4px 8px;}
   .cardbtns .mini.gold{background:linear-gradient(135deg,#e2b83a,#d4a72c); color:#fff; border:none; font-weight:600;}
   .share-preview{margin-top:10px; border-top:2px dashed var(--gold2); padding-top:10px;}
@@ -823,7 +823,7 @@
       <div class="gal hidden" id="galRole"></div>
       <h3 style="font-size:14px; color:var(--gold); margin-top:14px;">🌟 发现之旅 <small style="font-weight:400;">（R2 发现金句卡，你的专属发现）</small></h3>
       <div class="gal" id="galR2"></div>
-      <h3 style="font-size:14px; color:#8a5a00; margin-top:14px;">🎨 我的创作 <small style="font-weight:400;">（R3 作品墙 · 你的作品）</small></h3>
+      <h3 style="font-size:14px; color:#8a5a00; margin-top:14px;">🧿 创造金句卡 <small style="font-weight:400;">（R3 · 你描出来的金句）</small></h3>
       <div class="gal" id="galR3"></div>
       <h3 style="font-size:14px; color:#5a6a8a; margin-top:14px;">🎓 我的课堂 <small style="font-weight:400;">（R4 小老师金句卡，你讲给别人听）</small></h3>
       <div class="gal" id="galR4"></div>
@@ -6937,16 +6937,14 @@ function submitCreate(btn, i){
   const gain = S.curRound===4 ? (star?20:15) : (star?20:(writeN>=3?15:12));   // ★ M3.5：R4 回信 +15 基础 / 好文字 +20（R3 仍 +12/+15/+20）
   qbox.dataset.answered="1";
   btn.disabled=true; btn.textContent="作品做好啦 ✓";
-  if(S.curRound===4){   // ★ R4 回信 → 老师卡素材 q3（💞四轮大成徽章前身；打平后回信不触发，数据保留）；不进 R3 作品墙
+  if(S.curRound===4){   // ★ R4 回信 → 老师卡素材 q3（💞四轮大成徽章前身；打平后回信不触发，数据保留）
     S.r4cards[curPin] = S.r4cards[curPin]||{};
     S.r4cards[curPin]["q"+(i+1)] = fullText || (emojis||[]).join(" ");
-  } else {
-    S.works = S.works||[];
-    S.works.push({time:Date.now(), pin:curPin, round:3, text:fullText, emojis, star:star?true:false, quote:curQuote(p), season:S.journeySeason||1});   // ★ V6.6f：作品打上旅程季号
   }
+  // ★ V7 0816：R3「作品卡」已从产品移除，R2/R3 的感悟作答只计分、不再落作品墙（创造金句卡仍由描红 r3_done 生成）
   sessionPts += gain; addPts(gain); save();
   refreshStats(true); playSound(star?"wow":"char"); vibrate(18); lotusBurst(star?26:14);
-  toast(star ? "🌟 特别收藏！+20" : "作品收好了！+"+gain);
+  toast(star ? "🌟 特别收藏！+20" : "收到啦！+"+gain);
   // ★ V6.6b：R4 回信送达 → 对方回话气泡（2 秒自动消失，随机变体）
   if(S.curRound===4 && q.type==="reply") replyBubble();
   $("s2score").textContent = `本轮已得 ${sessionPts} 分`;
@@ -7970,7 +7968,7 @@ function skipTrace(){
 }
 function skipPop(){
   const p = DATA.pins.find(x=>x.pin===curPin);
-  const got = S.curRound===1 ? "金句卡" : (S.curRound===2 ? "发现金句卡" : (S.curRound===3 ? "作品已入墙" : "小老师金句卡"));
+  const got = S.curRound===1 ? "金句卡" : (S.curRound===2 ? "发现金句卡" : (S.curRound===3 ? "创造金句卡" : "小老师金句卡"));
   $("pop").innerHTML = `<div class="emo">⏭</div><h2>第${p.pin}品完成啦！</h2>
     <p>你跳过了描字（少拿 20 分）～<br>下次认真描一遍，还能补上 <b>+20</b> 哦 ✍️<br>已获得「${got}」</p>
     <button class="btn gold full" onclick="closePop();gotoStep(4);">看看收集的卡 →</button>`;
@@ -8030,7 +8028,7 @@ function showPopR3(bonus){
   const p = DATA.pins.find(x=>x.pin===curPin);
   const quote = curQuote(p);
   $("pop").innerHTML = `<div class="emo">🎨</div><h2>创造完成！</h2>
-    <p>「${esc(quote)}」被你变成了自己的作品。<br>${bonus?`完成这一品 +${bonus} 分！`:"复习一遍也很好～"}<br>获得「创造金句卡」+ 作品已收进「我的创作」🎴</p>
+    <p>「${esc(quote)}」被你变成了自己的金句作品。<br>${bonus?`完成这一品 +${bonus} 分！`:"复习一遍也很好～"}<br>获得「创造金句卡」一张 🎴</p>
     <button class="btn gold full" onclick="closePop();gotoStep(4);">看看我的作品 →</button>`;
   $("mask").classList.add("show");
 }
@@ -8180,7 +8178,8 @@ function showGallery(){
         <div class="cardbtns">
           <button class="mini" onclick="downloadCardPNG(${p.pin})">⬇ 下载</button>
           <button class="mini" onclick="printCard(${p.pin})">🖨 打印</button>
-          <button class="mini gold" title="分享日签卡" onclick="downloadSharePNG(${p.pin})">📤 分享</button>
+          <button class="mini gold" title="分享日签卡" onclick="downloadSharePNG(${p.pin},1)">📤 分享</button>
+          <button class="mini gold" title="换卡片底色" onclick="shuffleCardScheme()">🎲 换底色</button>
         </div>`;
       gq.appendChild(c);
     });
@@ -8200,6 +8199,8 @@ function showGallery(){
         <div class="cardbtns">
           <button class="mini" onclick="downloadR2QuotePNG(${n})">⬇ 下载</button>
           <button class="mini" onclick="printR2Quote(${n})">🖨 打印</button>
+          <button class="mini gold" title="分享日签卡" onclick="downloadSharePNG(${n},2)">📤 分享</button>
+          <button class="mini gold" title="换卡片底色" onclick="shuffleCardScheme()">🎲 换底色</button>
         </div>`;
       gr2.appendChild(c0);
     });
@@ -8217,36 +8218,14 @@ function showGallery(){
         <div class="cardbtns">
           <button class="mini" onclick="downloadR3QuotePNG(${n})">⬇ 下载</button>
           <button class="mini" onclick="printR3Quote(${n})">🖨 打印</button>
+          <button class="mini gold" title="分享日签卡" onclick="downloadSharePNG(${n},3)">📤 分享</button>
+          <button class="mini gold" title="换卡片底色" onclick="shuffleCardScheme()">🎲 换底色</button>
         </div>`;
       gR3.appendChild(c);
     });
   }
-  const works = (S.works||[]).filter(w=>w.round===3).slice().sort((a,b)=> (b.season||1)-(a.season||1) || (b.star?1:0)-(a.star?1:0) || b.time-a.time);
-  if(!works.length){
-    gR3.innerHTML = `<p class="muted" style="font-size:12px; grid-column:1/-1;">还没开始「创造」轮描字～去第②页选句描红，这一轮的金句卡就会出现在这里 🎨</p>`;
-  } else {
-    let curSeason = null;
-    works.forEach((w,i)=>{
-      const season = w.season||1;
-      if(season!==curSeason){
-        curSeason = season;
-        const sp = document.createElement("div"); sp.className="seasontag";
-        sp.style.cssText = "grid-column:1/-1; margin:16px 2px 4px; padding:7px 12px; border-radius:10px; background:linear-gradient(135deg,#eef7e4,#e2f0d0); color:#5a7a3a; font-size:12.5px; font-weight:700; letter-spacing:1px;";
-        sp.textContent = (season===S.journeySeason ? "🌱 本轮旅程" : "🕰 第 "+season+" 轮旅程");
-        gR3.appendChild(sp);
-      }
-      const p = DATA.pins.find(x=>x.pin===w.pin);
-      const c = document.createElement("div"); c.className="gcard";
-      c.innerHTML = `<div class="k">🎨 作品卡 · 第${w.pin}品${w.star?" · 🌟":""}</div>
-        <div class="big serif" style="font-size:16px;">${esc(w.text||"(没有文字，看表情～)")}</div>
-        <div class="sm">${w.emojis.map(esc).join(" ")}</div>
-        <div class="p">${w.star?"🌟 特别收藏 · ":""}${esc(S.nick||"小行者")} 的作品</div>
-        <div class="cardbtns">
-          <button class="mini" onclick="downloadR3WorkPNG(${w.time})">⬇ 下载</button>
-          <button class="mini" onclick="printR3Work(${w.time})">🖨 打印</button>
-        </div>`;
-      gR3.appendChild(c);
-    });
+  if(!r3done.length){
+    gR3.innerHTML = `<p class="muted" style="font-size:12px; grid-column:1/-1;">还没开始「创造」轮描字～去第②页选句描红，这一轮的金句卡就会出现在这里 🧿</p>`;
   }
   // ★ V7 R4 分区：小老师金句卡
   const gR4 = $("galR4"); gR4.innerHTML = "";
@@ -8263,6 +8242,8 @@ function showGallery(){
         <div class="cardbtns">
           <button class="mini" onclick="downloadR4QuotePNG(${n})">⬇ 下载</button>
           <button class="mini" onclick="printR4Quote(${n})">🖨 打印</button>
+          <button class="mini gold" title="分享日签卡" onclick="downloadSharePNG(${n},4)">📤 分享</button>
+          <button class="mini gold" title="换卡片底色" onclick="shuffleCardScheme()">🎲 换底色</button>
         </div>`;
       gR4.appendChild(c);
     });
@@ -8340,6 +8321,7 @@ function renderMap(){
 }
 function openGalleryPin(n){
   const p = DATA.pins.find(x=>x.pin===n); if(!p) return;
+  curDrillPin = n;
   const drill = $("galDrill"); if(!drill) return;
   drill.classList.remove("hidden");
   drill.innerHTML = `<div class="drillbar">
@@ -8356,19 +8338,19 @@ function pinCardsHTML(n){
   let h = "";
   if(S.r1_done[n]){
     h += `<div class="gcard ${rk.cls}"><div class="q">📿 金句卡</div>${cardSVG(p,'_'+p.pin)}
-      <div class="cardbtns"><button class="mini" onclick="downloadCardPNG(${p.pin})">⬇ 下载</button><button class="mini" onclick="printCard(${p.pin})">🖨 打印</button><button class="mini gold" onclick="downloadSharePNG(${p.pin})">📤 分享</button></div></div>`;
+      <div class="cardbtns"><button class="mini" onclick="downloadCardPNG(${p.pin})">⬇ 下载</button><button class="mini" onclick="printCard(${p.pin})">🖨 打印</button><button class="mini gold" onclick="downloadSharePNG(${p.pin},1)">📤 分享</button><button class="mini gold" title="换卡片底色" onclick="shuffleCardScheme()">🎲 换底色</button></div></div>`;
   }
   if(S.r2_done[n]){
     // ★ V7：R2 只留金色骨架「发现金句卡」
-    h += `<div class="gcard"><div class="k">🧿 发现金句卡 · 第${n}品</div>${r2QuoteSVG(p)}<div class="cardbtns"><button class="mini" onclick="downloadR2QuotePNG(${n})">⬇ 下载</button><button class="mini" onclick="printR2Quote(${n})">🖨 打印</button></div></div>`;
+    h += `<div class="gcard"><div class="k">🧿 发现金句卡 · 第${n}品</div>${r2QuoteSVG(p)}<div class="cardbtns"><button class="mini" onclick="downloadR2QuotePNG(${n})">⬇ 下载</button><button class="mini" onclick="printR2Quote(${n})">🖨 打印</button><button class="mini gold" title="分享日签卡" onclick="downloadSharePNG(${n},2)">📤 分享</button><button class="mini gold" title="换卡片底色" onclick="shuffleCardScheme()">🎲 换底色</button></div></div>`;
   }
-  const works = (S.works||[]).filter(w=>w.round===3 && w.pin===n);
-  works.forEach(w=>{
-    h += `<div class="gcard"><div class="k">🎨 作品卡 · 第${w.pin}品${w.star?" · 🌟":""}${(w.season&&w.season!==S.journeySeason)?(" · 🕰 第"+w.season+"轮"):""}</div><div class="big serif" style="font-size:16px;">${esc(w.text||"(没有文字，看表情～)")}</div><div class="sm">${w.emojis.map(esc).join(" ")}</div><div class="p">${w.star?"🌟 特别收藏 · ":""}${esc(S.nick||"小行者")} 的作品</div><div class="cardbtns"><button class="mini" onclick="downloadR3WorkPNG(${w.time})">⬇ 下载</button><button class="mini" onclick="printR3Work(${w.time})">🖨 打印</button></div></div>`;
-  });
+  // ★ V7 0816：作品卡已从产品移除；R3 创造金句卡（与画廊平铺同款）补回钻取视图
+  if(S.r3_done[n]){
+    h += `<div class="gcard"><div class="k">🧿 创造金句卡 · 第${n}品</div>${r3QuoteSVG(p)}<div class="cardbtns"><button class="mini" onclick="downloadR3QuotePNG(${n})">⬇ 下载</button><button class="mini" onclick="printR3Quote(${n})">🖨 打印</button><button class="mini gold" title="分享日签卡" onclick="downloadSharePNG(${n},3)">📤 分享</button><button class="mini gold" title="换卡片底色" onclick="shuffleCardScheme()">🎲 换底色</button></div></div>`;
+  }
   if(S.r4_done[n]){
     // ★ V7：R4 只留金色骨架「小老师金句卡」
-    h += `<div class="gcard ${rk.cls}"><div class="k">🧿 小老师金句卡 · 第${n}品</div>${r4QuoteSVG(p)}<div class="cardbtns"><button class="mini" onclick="downloadR4QuotePNG(${n})">⬇ 下载</button><button class="mini" onclick="printR4Quote(${n})">🖨 打印</button></div></div>`;
+    h += `<div class="gcard ${rk.cls}"><div class="k">🧿 小老师金句卡 · 第${n}品</div>${r4QuoteSVG(p)}<div class="cardbtns"><button class="mini" onclick="downloadR4QuotePNG(${n})">⬇ 下载</button><button class="mini" onclick="printR4Quote(${n})">🖨 打印</button><button class="mini gold" title="分享日签卡" onclick="downloadSharePNG(${n},4)">📤 分享</button><button class="mini gold" title="换卡片底色" onclick="shuffleCardScheme()">🎲 换底色</button></div></div>`;
   }
   if(!h) h = `<p class="muted" style="grid-column:1/-1; text-align:center;">这一品还没有收集到卡片哦～去读一读吧！</p>`;
   return h;
@@ -8544,6 +8526,19 @@ function ghostQuoteBlock(quote, cx, midY, sz, gap, boxW, boxPad, opt){
   }
   return {svg: out, endY, frameW, frameH, frameLeft, frameTop};
 }
+let cardSchemeOverride = null;
+let curDrillPin = null;
+const CARD_SCHEMES = [
+  { name:"宣纸暖", top:"#fff9e6", bot:"#f5e3c6", txt:"#8a6a45", txt2:"#a08a68" },
+  { name:"深空蓝", top:"#1b3a6b", bot:"#0a1730", txt:"#e8dcc0", txt2:"#c9b58a" },
+  { name:"深空青", top:"#143b3a", bot:"#07191a", txt:"#dff0e6", txt2:"#9fe0d0" },
+  { name:"夜空黑", top:"#0d1226", bot:"#03050d", txt:"#e8e6f5", txt2:"#8fb8e8" }
+];
+function shuffleCardScheme(){
+  cardSchemeOverride = Math.floor(Math.random()*CARD_SCHEMES.length);
+  if(curDrillPin!=null && !$("galDrill").classList.contains("hidden")){ openGalleryPin(curDrillPin); }
+  else { showGallery(); }
+}
 function cardSVG(p, suf){
   const W=1080, H=1920;
   const nick = (S.nick||"小书童").replace(/[<>&]/g,"");
@@ -8555,6 +8550,9 @@ function cardSVG(p, suf){
   const useCur = (suf||"").indexOf("cur")>=0;
   const quote = useCur ? (traceSentence || curQuote(p)) : collectedQuote(p, 1);   // ★ V7 0809m：R1 金句卡固定读 r1traced（从其他轮画廊点 R1 卡下载也不串句）
   const s = suf||"";
+  const sc = (cardSchemeOverride!=null ? cardSchemeOverride : 0) % CARD_SCHEMES.length;
+  const sch = CARD_SCHEMES[sc];
+  const txt = sch.txt, txt2 = sch.txt2;
   // 金句竖排：一字一行
   // ★ V6.6k：金骨架从「第1品试点」铺开全 32 品（白字帖框 + 米字格 + 金色笔画骨架字；缺笔画数据自动回退楷体大字）
   const ghostP1 = true;
@@ -8574,25 +8572,25 @@ function cardSVG(p, suf){
   const corners = [[70,70],[1010,70],[70,1850],[1010,1850]].map(([x,y])=>
     `<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${col}" stroke-width="3"/>
      <circle cx="${x}" cy="${y}" r="5" fill="${col}"/>`).join("");
-  const seal = (x,y,icon,txt)=>`<g transform="translate(${x},${y})"><rect x="-74" y="-27" width="148" height="54" rx="9" fill="#c9a227" opacity=".08"/><rect x="-71" y="-24" width="142" height="48" rx="7" fill="none" stroke="#c9a227" stroke-width="1.5" opacity=".35"/><text x="-42" y="7" text-anchor="middle" font-size="20">${icon}</text><text x="8" y="8" text-anchor="middle" font-size="18" fill="#a08a68" font-family="'KaiTi',serif">${txt}</text></g>`;   // ★ V7 2026-08-09：复用分享卡同款三印章
+  const seal = (x,y,icon,txt)=>`<g transform="translate(${x},${y})"><rect x="-74" y="-27" width="148" height="54" rx="9" fill="#c9a227" opacity=".08"/><rect x="-71" y="-24" width="142" height="48" rx="7" fill="none" stroke="#c9a227" stroke-width="1.5" opacity=".35"/><text x="-42" y="7" text-anchor="middle" font-size="20">${icon}</text><text x="8" y="8" text-anchor="middle" font-size="18" fill="${txt2}" font-family="'KaiTi',serif">${txt}</text></g>`;   // ★ V7 2026-08-09：复用分享卡同款三印章
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" class="card-svg">
   <defs>
-    <linearGradient id="bg${s}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#fff9e6"/><stop offset="1" stop-color="#f5e3c6"/>
+    <linearGradient id="bg${s}_${sc}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${sch.top}"/><stop offset="1" stop-color="${sch.bot}"/>
     </linearGradient>
     <linearGradient id="band${s}" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="${col}"/><stop offset="1" stop-color="${colD}"/>
     </linearGradient>
   </defs>
-  <rect width="${W}" height="${H}" fill="url(#bg${s})"/>
+  <rect width="${W}" height="${H}" fill="url(#bg${s}_${sc})"/>
   <rect x="40" y="40" width="${W-80}" height="${H-80}" rx="40" fill="none" stroke="${col}" stroke-width="5"/>
   <rect x="60" y="60" width="${W-120}" height="${H-120}" rx="28" fill="none" stroke="${colD}" stroke-width="2" stroke-dasharray="12 10" opacity=".55"/>
   ${corners}
   <rect x="0" y="330" width="${W}" height="8" fill="url(#band${s})" opacity=".8"/>
   <text x="${W/2}" y="200" text-anchor="middle" font-size="56" fill="${colD}" font-family="'KaiTi','STKaiti','SimKai',serif" letter-spacing="14">汉 字 描 字 帖</text>
-  <text x="${W/2}" y="272" text-anchor="middle" font-size="32" fill="#8a6a45" font-family="'KaiTi','STKaiti','SimKai',serif" letter-spacing="6">描字帖 · 第${p.pin}品 · ${esc(p.name.replace(/第.+$/,""))}</text>
+  <text x="${W/2}" y="272" text-anchor="middle" font-size="32" fill="${txt}" font-family="'KaiTi','STKaiti','SimKai',serif" letter-spacing="6">描字帖 · 第${p.pin}品 · ${esc(p.name.replace(/第.+$/,""))}</text>
   ${chars}
-  <text x="${W/2}" y="${y}" text-anchor="middle" font-size="30" fill="#8a6a45" font-family="'KaiTi',serif" letter-spacing="2">${pinyin}</text>
+  <text x="${W/2}" y="${y}" text-anchor="middle" font-size="30" fill="${txt}" font-family="'KaiTi',serif" letter-spacing="2">${pinyin}</text>
   <g transform="rotate(-14 ${W-150} 430)">
     <rect x="${W-230}" y="360" width="160" height="160" rx="20" fill="none" stroke="#b03a2e" stroke-width="6"/>
     <text x="${W-150}" y="442" text-anchor="middle" font-size="40" fill="#b03a2e" font-family="'KaiTi',serif" letter-spacing="4">已通关</text>
@@ -8602,12 +8600,12 @@ function cardSVG(p, suf){
   ${seal(220,H-178,"🏅","连续 "+(S.streak.count||0)+" 天")}
   ${seal(540,H-178,"📚","已集 "+doneN+"/32 品")}
   ${seal(860,H-178,"✨",S.points+" 分")}
-  <g transform="translate(${W/2},${H-92})">
+    <g transform="translate(${W/2},${H-92})">
     <rect x="-130" y="-31" width="260" height="62" rx="10" fill="#b03a2e" opacity=".10"/>
     <rect x="-126" y="-27" width="252" height="54" rx="8" fill="none" stroke="#b03a2e" stroke-width="2.5" opacity=".85"/>
-    <text x="0" y="9" text-anchor="middle" font-size="30" fill="#8f2b1f" font-family="'KaiTi',serif" letter-spacing="6">— ${esc(nick)} —</text>
+    <text x="0" y="9" text-anchor="middle" font-size="30" fill="${txt2}" font-family="'KaiTi',serif" letter-spacing="6">— ${esc(nick)} —</text>
   </g>
-  <text x="${W/2}" y="${H-34}" text-anchor="middle" font-size="24" fill="#a08a68" font-family="'KaiTi',serif">${dstr} · 汉字描字帖</text>
+  <text x="${W/2}" y="${H-34}" text-anchor="middle" font-size="24" fill="${txt2}" font-family="'KaiTi',serif">${dstr} · 汉字描字帖</text>
 </svg>`;
 }
 // V2：角色头像（大头像/小头像共用，viewBox 300 自动缩放）
@@ -8628,15 +8626,18 @@ function roleAvatar(name){ return avatarBig(name||""); }
 // ★ V5.1 分享卡（日签式 · 朋友圈美学）：身份表达 + 成就感 + 审美 + 传播入口
 //   V6.6o：成就三项改右栏小印章竖排（印泥感·小字体·顺金句往下）；智慧莲花7槽移左下、去文字仅留🌼图标+极小 X/7；GAP计BOXPAD根因不变；底部全固定；另加 bumpCorrect/lotusPop（每答对满5题弹"🌼点亮一朵智慧莲花"+轻音效，网页即时正反馈）
 //   V6.6q：成就三项从右侧竖排→分隔线下横排（淡金细圈底保留）；去左下装饰莲花(decLotus)；金句两侧全留白、中央绝对主角；底部固定区微下移22px
-function shareCardSVG(p){
+function shareCardSVG(p, round){
   const W=1080, H=1920;
   const nick=(S.nick||"小书童").replace(/[<>&]/g,"");
   const col=S.color||"#c9a227";
   const colD=CARDC[col]||"#a8842e";
   const dstr=today();
+  const sc = (cardSchemeOverride!=null ? cardSchemeOverride : 0) % CARD_SCHEMES.length;
+  const sch = CARD_SCHEMES[sc];
+  const txt = sch.txt, txt2 = sch.txt2;
   const days=S.streak.count||0;
   const doneN=Object.keys(S.done).length;
-  const quote=collectedQuote(p);   // ★ V7 0809e：分享卡跟随实际描句（下载=分享内容一致）
+  const quote=collectedQuote(p, round);   // ★ V7 0809e：分享卡跟随实际描句；round 透传防串句（点 R1 卡分享永远出 R1 句）
   // ★ V6.6n：今日收获（S.dayInfo 跨天自动重置）+ 智慧莲花（累计答对数/5，点亮 7 槽）
   const dayPts = (S.dayInfo&&S.dayInfo.date===dstr) ? (S.dayInfo.pts||0) : 0;
   const lotusLit = Math.min(7, Math.floor((S.correctTotal||0)/5));
@@ -8657,16 +8658,16 @@ function shareCardSVG(p){
       <rect x="-74" y="-27" width="148" height="54" rx="9" fill="#c9a227" opacity=".08"/>
       <rect x="-71" y="-24" width="142" height="48" rx="7" fill="none" stroke="#c9a227" stroke-width="1.5" opacity=".35"/>
       <text x="-42" y="7" text-anchor="middle" font-size="20">${icon}</text>
-      <text x="8" y="8" text-anchor="middle" font-size="18" fill="#a08a68" font-family="'KaiTi',serif">${txt}</text>
+      <text x="8" y="8" text-anchor="middle" font-size="18" fill="${txt2}" font-family="'KaiTi',serif">${txt}</text>
     </g>`;
   const dayLine = dayPts>0 ? `今日一句 · ${dstr} · ✨ 今日收获 +${dayPts} 分` : `今日一句 · ${dstr}`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" class="card-svg share-svg">
   <defs>
-    <linearGradient id="sbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdf8ed"/><stop offset="1" stop-color="#f3e2c6"/></linearGradient>
+    <linearGradient id="sbg${sc}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sch.top}"/><stop offset="1" stop-color="${sch.bot}"/></linearGradient>
     <linearGradient id="sband" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${col}"/><stop offset="1" stop-color="${colD}"/></linearGradient>
     <radialGradient id="sglow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="${col}" stop-opacity=".14"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></radialGradient>
   </defs>
-  <rect width="${W}" height="${H}" fill="url(#sbg)"/>
+  <rect width="${W}" height="${H}" fill="url(#sbg${sc})"/>
   <!-- 顶部大面积留白 + 中央光晕 -->
   <circle cx="${W/2}" cy="${H*0.38}" r="560" fill="url(#sglow)"/>
   <!-- 细线框（更精致，双细线） -->
@@ -8683,15 +8684,15 @@ function shareCardSVG(p){
   ${seal(860,1362,"✨",S.points+" 分")}
   <!-- 底部固定区（固定坐标，不随金句长度浮动） -->
   <line x1="200" y1="1330" x2="${W-200}" y2="1330" stroke="${colD}" stroke-width="3" opacity=".5"/>
-  <text x="${W/2}" y="1420" text-anchor="middle" font-size="30" fill="#8a6a45" font-family="'KaiTi',serif" letter-spacing="4">${dayLine}</text>
+  <text x="${W/2}" y="1420" text-anchor="middle" font-size="30" fill="${txt}" font-family="'KaiTi',serif" letter-spacing="4">${dayLine}</text>
   <!-- 署名（红色印章感） -->
   <g transform="translate(${W/2},1478)">
     <rect x="-130" y="-31" width="260" height="62" rx="10" fill="#b03a2e" opacity=".10"/>
     <rect x="-126" y="-27" width="252" height="54" rx="8" fill="none" stroke="#b03a2e" stroke-width="2.5" opacity=".85"/>
-    <text x="0" y="9" text-anchor="middle" font-size="30" fill="#8f2b1f" font-family="'KaiTi',serif" letter-spacing="6">— ${esc(nick)} —</text>
+    <text x="0" y="9" text-anchor="middle" font-size="30" fill="${txt2}" font-family="'KaiTi',serif" letter-spacing="6">— ${esc(nick)} —</text>
   </g>
   <!-- 二维码体验入口 -->
-  <text x="${W/2}" y="1574" text-anchor="middle" font-size="24" font-family="'KaiTi',serif" letter-spacing="2" fill="#6a5236">扫码 · 一起来当小书童 · 每天一句金句</text>
+  <text x="${W/2}" y="1574" text-anchor="middle" font-size="24" font-family="'KaiTi',serif" letter-spacing="2" fill="${txt2}">扫码 · 一起来当小书童 · 每天一句金句</text>
   <rect x="${W/2-150}" y="${H-330}" width="300" height="300" rx="18" fill="#ffffff" stroke="${colD}" stroke-width="3"/>
   <g transform="translate(${W/2-105},${H-285})">${realQR(SHARE_URL,210)}</g>
 </svg>`;
@@ -11029,10 +11030,10 @@ function qrGlyph(x,y,size){
   return m;
 }
 // 分享卡下载（复用 downloadSVG，文件名区分）
-function downloadSharePNG(n){
+function downloadSharePNG(n, round){
   const p = DATA.pins.find(x=>x.pin===n);
   if(!p) return;
-  downloadSVG(shareCardSVG(p), `汉字描字日签_${(S.nick||"小书童").replace(/[<>&]/g,"")}_${today()}.png`);
+  downloadSVG(shareCardSVG(p, round), `汉字描字日签_${(S.nick||"小书童").replace(/[<>&]/g,"")}_${today()}.png`);
 }
 // V2：通用下载（SVG → canvas → PNG 9:16）
 function downloadSVG(svg, fname){
@@ -11060,20 +11061,22 @@ function wrapCN(s, n){ const out=[]; for(let i=0;i<s.length;i+=n) out.push(s.sli
 function cnLines(s, per, max){ const lines=wrapCN(s||"", per).slice(0,max); if((s||"").length>per*max) lines[max-1]=(lines[max-1]||"").slice(0,-1)+"…"; return lines; }
 function cardShell(inner, s){
   const col=S.color||"#c9a227"; const colD=CARDC[col]||"#a8842e";
+  const _sc = (cardSchemeOverride!=null ? cardSchemeOverride : 0) % CARD_SCHEMES.length;
+  const sch = CARD_SCHEMES[_sc];
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920" class="card-svg">
-  <defs><linearGradient id="bg${s}" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#fff9e6"/><stop offset="1" stop-color="#f5e3c6"/></linearGradient>
-  <linearGradient id="band${s}" x1="0" y1="0" x2="1" y2="0">
+  <defs><linearGradient id="cbs${s}_${_sc}" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="${sch.top}"/><stop offset="1" stop-color="${sch.bot}"/></linearGradient>
+  <linearGradient id="cbsb${s}_${_sc}" x1="0" y1="0" x2="1" y2="0">
     <stop offset="0" stop-color="${col}"/><stop offset="1" stop-color="${colD}"/></linearGradient></defs>
-  <rect width="1080" height="1920" fill="url(#bg${s})"/>
+  <rect width="1080" height="1920" fill="url(#cbs${s}_${_sc})"/>
   <rect x="40" y="40" width="1000" height="1840" rx="40" fill="none" stroke="${col}" stroke-width="5"/>
   <rect x="60" y="60" width="960" height="1800" rx="28" fill="none" stroke="${colD}" stroke-width="2" stroke-dasharray="12 10" opacity=".55"/>
   ${[[70,70],[1010,70],[70,1850],[1010,1850]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${col}" stroke-width="3"/><circle cx="${x}" cy="${y}" r="5" fill="${col}"/>`).join("")}
   <text x="540" y="200" text-anchor="middle" font-size="56" fill="${colD}" font-family="'KaiTi','STKaiti','SimKai',serif" letter-spacing="14">汉 字 描 字 帖</text>
   ${inner}
-  <rect x="0" y="1670" width="1080" height="250" fill="url(#band${s})" opacity=".12"/>
+  <rect x="0" y="1670" width="1080" height="250" fill="url(#cbsb${s}_${_sc})" opacity=".12"/>
   <text x="540" y="1762" text-anchor="middle" font-size="44" fill="${colD}" font-family="'KaiTi',serif" letter-spacing="4">「${esc((S.nick||"小行者").replace(/[<>&]/g,""))}」的专属卡片</text>
-  <text x="540" y="1820" text-anchor="middle" font-size="26" fill="#6a5236" font-family="'KaiTi',serif">${today()} · 汉字描字帖</text>
+  <text x="540" y="1820" text-anchor="middle" font-size="26" fill="${sch.txt2}" font-family="'KaiTi',serif">${today()} · 汉字描字帖</text>
 </svg>`;
 }
 // ★ V6.6l：四轮金句卡（金骨架，白框+米字格+金字竖排，复用 cardShell 壳）
@@ -11085,30 +11088,21 @@ function rNQuoteSVG(p, r, suf){
   const quote = _traced || _def;   // ★ V7 0809m：优先实际描句，画廊/下载/打印四墙卡跟随（打平后各轮显各句）
   const py = (_traced && _traced!==_def) ? "" : ( (r===1) ? (p.pinyin||"") : ((p.goldenQuotes||[]).find(x=>x.r===r)?.py || p.pinyin || "") );
   const rn = r===1?"初遇":r===2?"发现":r===3?"创造":"小老师";
+  const _sc = (cardSchemeOverride!=null ? cardSchemeOverride : 0) % CARD_SCHEMES.length;
+  const sch = CARD_SCHEMES[_sc];
   const gb = ghostQuoteBlock(quote, 540, 1000, 170, 200, 340, 40);
   const inner = `
-  <text x="540" y="272" text-anchor="middle" font-size="32" fill="#8a6a45" font-family="'KaiTi',serif" letter-spacing="6">🧿 ${rn}金句卡 · 第${p.pin}品 · ${esc(p.name.replace(/第.+$/,""))}</text>
+  <text x="540" y="272" text-anchor="middle" font-size="32" fill="${sch.txt}" font-family="'KaiTi',serif" letter-spacing="6">🧿 ${rn}金句卡 · 第${p.pin}品 · ${esc(p.name.replace(/第.+$/,""))}</text>
   ${gb.svg}
-  <text x="540" y="${gb.endY+44}" text-anchor="middle" font-size="30" fill="#8a6a45" font-family="'KaiTi',serif" letter-spacing="2">${esc(py)}</text>`;
+  <text x="540" y="${gb.endY+44}" text-anchor="middle" font-size="30" fill="${sch.txt}" font-family="'KaiTi',serif" letter-spacing="2">${esc(py)}</text>`;
   return cardShell(inner, (suf||"q")+r+"_"+p.pin);
 }
 function r2QuoteSVG(p){ return rNQuoteSVG(p,2,"w"); }
 function r3QuoteSVG(p){ return rNQuoteSVG(p,3,"m"); }
 function r4QuoteSVG(p){ return rNQuoteSVG(p,4,"t"); }
 // ★ V7：R2 智慧卡/问答卡（含孩子回答）已移除 —— R2 只保留金色骨架「发现金句卡」（r2QuoteSVG），用户文字不再上卡
-// 🎨 R3 作品卡：孩子创作（文字 + emoji）
-function r3WorkSVG(w){
-  const p=DATA.pins.find(x=>x.pin===w.pin)||{pin:w.pin,name:""};
-  const lines=cnLines(w.text||"(没有文字，看表情～)",16,4);
-  const txt=lines.map((l,i)=>`<text x="540" y="${840+i*88}" text-anchor="middle" font-size="42" fill="#3a2a18" font-family="'KaiTi','STKaiti',serif">${esc(l)}</text>`).join("");
-  const emoji=(w.emojis||[]).join(" ");
-  const inner=`
-  <text x="540" y="272" text-anchor="middle" font-size="32" fill="#8a6a45" font-family="'KaiTi',serif" letter-spacing="6">🎨 作品卡 · 第${w.pin}品${w.star?" · 🌟特别收藏":""}</text>
-  <text x="540" y="640" text-anchor="middle" font-size="70">${esc(emoji)}</text>
-  ${txt}`;
-  return cardShell(inner, "m"+w.time);
-}
-// ★ V7：downloadR2WisdomPNG 已移除（智慧卡用户文字不再上卡）
+// ★ V7 0816：R3 作品卡（文字+emoji）已从产品移除，r3WorkSVG 删除
+// ★ V7：→ R2 智慧卡用户文字不再上卡（downloadR2WisdomPNG 已移除）
 function downloadR2QuotePNG(n){
   const p=DATA.pins.find(x=>x.pin===n); if(!p) return;
   downloadSVG(r2QuoteSVG(p), `汉字描字_第${n}品_发现金句卡_${(S.nick||"小行者").replace(/[<>&]/g,"")}.png`);
@@ -11134,17 +11128,14 @@ function printR4Quote(n){
   printSVG(r4QuoteSVG(p));
 }
 // ★ V7：downloadR2QaPNG 已移除（问答卡用户文字不再上卡）
-function downloadR3WorkPNG(time){
-  const w=(S.works||[]).find(x=>x.time===time); if(!w) return;
-  downloadSVG(r3WorkSVG(w), `汉字描字_第${w.pin}品_作品卡_${(S.nick||"小行者").replace(/[<>&]/g,"")}.png`);
-}
+// ★ V7 0816：downloadR3WorkPNG 已移除（作品卡已从产品移除）
 function printSVG(svg){
   if(isWeChat){ toast("微信里不能直接打印哦～点右上角···用浏览器打开就能打印 🖨️"); return; }
   const pa=$("printArea"); pa.innerHTML=svg; pa.classList.add("show");
   setTimeout(()=>{ window.print(); setTimeout(()=> pa.classList.remove("show"),400); },150);
 }
 // ★ V7：printR2Wisdom / printR2Qa 已移除（用户文字不再上卡）
-function printR3Work(time){ const w=(S.works||[]).find(x=>x.time===time); if(w) printSVG(r3WorkSVG(w)); }
+// ★ V7 0816：printR3Work 已移除（作品卡已从产品移除）
 function downloadCardPNG(n){
   const p = DATA.pins.find(x=>x.pin===n);
   if(!p) return;
