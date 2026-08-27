@@ -2,7 +2,7 @@
 # 一键部署脱敏版描字帖到腾讯云 CVM（Ubuntu + Nginx）
 # 用法：cd /tmp && curl -fsSL -o deploy.sh "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@main/deploy.sh" && sudo bash deploy.sh
 set -e
-COMMIT="39fdfee"   # 钉死本次部署 commit，避免 @main 在 jsDelivr 上偶发截断/缓存旧版
+COMMIT="6cb4943"   # 钉死本次部署 commit，避免 @main 在 jsDelivr 上偶发截断/缓存旧版
 
 echo "【1/5】安装 Nginx（首次约 1-2 分钟，请耐心等）..."
 sudo apt-get update -y
