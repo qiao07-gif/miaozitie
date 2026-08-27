@@ -3,7 +3,7 @@
 # 用法：cd /tmp && curl -fsSL -o deploy.sh "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@main/deploy.sh" && sudo bash deploy.sh
 # 前置：域名 miaozitie.top 的 A 记录已指向本机 49.232.57.123，且腾讯云安全组放通 22/80/443
 set -e
-COMMIT="6cb4943"   # 钉死本次部署 commit，避免 @main 在 jsDelivr 上偶发截断/缓存旧版
+COMMIT="14daa4a"   # 钉死本次部署 commit（含ICP号+公安备案双号），避免 @main 在 jsDelivr 上偶发截断/缓存旧版
 DOMAIN="miaozitie.top"
 
 echo "【1/6】安装 Nginx..."
@@ -37,6 +37,7 @@ grep -q "cardSchemeOverride" index-domestic.html || { echo "WARNING: 缺 cardSch
 grep -q "url(#cbs"          index-domestic.html || { echo "WARNING: 缺 url(#cbs -> 不是新版"; exit 1; }
 grep -q "素材来源"           index-domestic.html || { echo "WARNING: 缺 素材来源 -> 脱敏未生效"; exit 1; }
 grep -q "鲁公网安备37150202001150号" index-domestic.html || { echo "WARNING: 缺 公安备案footer -> 国内版异常"; exit 1; }
+grep -q "鲁ICP备2026048614号-1" index-domestic.html || { echo "WARNING: 缺 ICP备案footer -> 国内版异常"; exit 1; }
 SIZE=$(stat -c%s index-domestic.html 2>/dev/null || echo 0)
 echo "  校验通过（含公安备案footer），大小: ${SIZE} 字节"
 [ "$SIZE" -lt 1000000 ] && { echo "WARNING: 文件过小，可能CDN未缓存，请截图告知"; exit 1; }
