@@ -2,6 +2,7 @@
 # 一键部署脱敏版描字帖到腾讯云 CVM（Ubuntu + Nginx）
 # 用法：cd /tmp && curl -fsSL -o deploy.sh "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@main/deploy.sh" && sudo bash deploy.sh
 set -e
+COMMIT="39fdfee"   # 钉死本次部署 commit，避免 @main 在 jsDelivr 上偶发截断/缓存旧版
 
 echo "【1/5】安装 Nginx（首次约 1-2 分钟，请耐心等）..."
 sudo apt-get update -y
@@ -10,15 +11,24 @@ sudo systemctl enable nginx
 sudo systemctl start nginx
 echo "  ✓ Nginx 已启动"
 
-echo "【2/5】从 jsDelivr 拉取脱敏版（@main，带重试应对首拉未缓存）..."
+echo "【2/5】从 jsDelivr 拉取脱敏版（钉死 @${COMMIT} + 备用域名 gcore，带重试）..."
 cd /tmp
-for i in 1 2 3 4 5; do
-  if curl -fL -o index-domestic.html "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@main/index-domestic.html" && \
-     curl -fL -o og-cover.png "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@main/og-cover.png"; then
-    echo "  第 $i 次拉取成功"; break
-  fi
-  echo "  第 $i 次拉取失败，3 秒后重试..."; sleep 3
+pull_ok=0
+for CDN in \
+  "https://cdn.jsdelivr.net/gh/qiao07-gif/miaozitie@${COMMIT}" \
+  "https://gcore.jsdelivr.net/gh/qiao07-gif/miaozitie@${COMMIT}" ; do
+  echo "  尝试 CDN: ${CDN}"
+  for i in 1 2 3; do
+    if curl -fL -o index-domestic.html "${CDN}/index-domestic.html" && \
+       curl -fL -o og-cover.png "${CDN}/og-cover.png"; then
+      echo "  第 $i 次拉取成功"; pull_ok=1; break 2
+    fi
+    echo "  第 $i 次失败，2 秒后重试..."; sleep 2
+  done
+  [ "$pull_ok" -eq 1 ] && break
+  echo "  ${CDN} 失败，切换下一个 CDN"
 done
+[ "$pull_ok" -eq 0 ] && { echo "ERROR: 所有 CDN 拉取失败，请截图告知"; exit 1; }
 
 echo "【3/5】校验确为新版（防 CDN 未刷新/旧版误部署）..."
 grep -q "cardSchemeOverride" index-domestic.html || { echo "WARNING: 缺 cardSchemeOverride -> 不是新版，疑似CDN未同步，请截图告知"; exit 1; }
