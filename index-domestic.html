@@ -6339,7 +6339,7 @@ function sparkAtChar(){
 }
 function pinyinAlign(quote, pinyin){
   // 只对齐汉字；标点跳过
-  const py = (pinyin||"").split(/\s+/).filter(Boolean);
+  const py = (pinyin||"").split(/\s+/).filter(Boolean).filter(w=>/[a-zA-Z]/.test(w));  // ★ 剔除 py 里混入的标点字面串(如"？")，否则汉字计数错位→须菩提等标点后汉字拼音全错
   let pi = 0; const out = [];
   for(const ch of quote){
     if(/[一-鿿]/.test(ch)){ out.push(py[pi]||""); pi++; } else out.push("");
