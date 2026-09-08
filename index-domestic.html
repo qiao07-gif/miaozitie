@@ -7517,10 +7517,10 @@ function buildTrace(p){
     if(traceSize<240) traceSize = 240;   // 下限：底字必须够大（8 岁孩子描红体验）
   }catch(e){}
   traceChars = [];
-  let ci = 0;
-  for(const ch of quote){
+  for(let i=0;i<quote.length;i++){
+    const ch = quote[i];
     if(!/[一-鿿]/.test(ch)) continue;
-    const py = charPinyin[ci]||""; ci++;
+    const py = charPinyin[i]||"";  // ★ 用 quote 真实位置 i 取拼音；原 ci 仅汉字计数，与 pinyinAlign 返回的数组（按字符位置对齐）不一致，导致标点后拼音整体左移一位
     const cd = (window.CHAR_DATA && window.CHAR_DATA[ch]);
     // ★ 完成判定：逐笔骨架识别（橙橙指定思路）。
     //   每个字按笔画骨架建模；孩子一笔一划描，命中该字每一笔的骨架就过，少一笔/乱画都不认。
