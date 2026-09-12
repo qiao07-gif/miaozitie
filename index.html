@@ -8059,7 +8059,7 @@ function showFinAll(){
 function showPop(bonus){
   const p = DATA.pins.find(x=>x.pin===curPin);
   $("pop").innerHTML = `<div class="emo">🎉</div><h2>金句描完啦！</h2>
-    <p>「${esc(traceSentence)}」已刻进你的小手心里。<br>${bonus?`完成这一品 +${bonus} 分！`:"复习一遍也很好～"}<br>获得「金句卡」一张 🎴</p>
+    <p>「${esc(traceSentence)}」已留存在你的时光里。<br>${bonus?`完成这一品 +${bonus} 分！`:"复习一遍也很好～"}<br>获得「金句卡」一张 🎴</p>
     <button class="btn gold full" onclick="closePop();gotoStep(4);">看看我收集到的卡 →</button>`;
   $("mask").classList.add("show");
 }
